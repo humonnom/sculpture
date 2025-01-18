@@ -72,3 +72,16 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Products {
+    id          Int      @id @default(autoincrement())
+    name        String
+    height      Float
+    width       Float
+    depth       Float
+    year        Int
+    artist_name String
+    material    String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
