@@ -1,29 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { type Products } from "@prisma/client";
+import { api } from "~/trpc/react";
 
 export function ProductsList() {
-  const [products, setProducts] = useState<Products[]>([]);
+  const { data: products, isLoading, error } = api.products.getAll.useQuery();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("/api/products");
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      }
-    };
-
-    void fetchProducts();
-  }, []);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!products) return <div>No products found</div>;
 
   return (
     <ul className="list-disc space-y-2">
       {products.map((product) => (
-        <li key={product.id}>{product.name}</li>
+        <li key={product.id} className="rounded-lg border p-4 shadow-sm">
+          <h3 className="text-lg font-semibold">{product.name}</h3>
+          <p className="text-gray-600">
+            {product.width}x{product.height}x{product.depth}mm
+          </p>
+          <p className="text-gray-700">by {product.artist_name}</p>
+          <p className="text-gray-500">
+            {product.material} ({product.year})
+          </p>
+        </li>
       ))}
     </ul>
   );
