@@ -75,13 +75,13 @@ model VerificationToken {
 
 model Products {
     id          Int      @id @default(autoincrement())
-    name        String
-    height      Float
-    width       Float
-    depth       Float
+    name        String   @db.VarChar(255)
+    height      Float    /// Measurement in centimeters (cm)
+    width       Float    /// Measurement in centimeters (cm)
+    depth       Float    /// Measurement in centimeters (cm)
     year        Int
-    artist_name String
-    material    String
+    artist_name String   @db.VarChar(255)
+    material    String   @db.VarChar(255)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 }
