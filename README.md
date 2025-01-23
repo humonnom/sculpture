@@ -25,6 +25,64 @@ A curated marketplace for small-scale sculptures, designed to connect emerging a
 - [TypeScript](https://typescriptlang.org)
 - [Tailwind CSS](https://tailwindcss.com)
 
+## Local Development Setup
+
+### Prerequisites
+- Node.js
+- pnpm
+- PostgreSQL
+
+### Database Setup
+
+1. Install PostgreSQL (if not already installed):
+```bash
+brew install postgresql@14
+brew services start postgresql@14
+```
+
+2. Create development database:
+```bash
+createdb sculpture_dev
+```
+
+3. Configure environment:
+- Copy `.env.example` to `.env`
+- Update DATABASE_URL in `.env`:
+```
+DATABASE_URL="postgresql://<your-username>@localhost:5432/sculpture_dev"
+```
+Replace `<your-username>` with your system username.
+
+4. If you encounter database access issues, grant necessary permissions:
+```bash
+psql -d sculpture_dev -c "ALTER USER <your-username> WITH SUPERUSER;"
+```
+
+### Install Dependencies and Start Development Server
+
+1. Install project dependencies:
+```bash
+pnpm install
+```
+
+2. Generate Prisma client and run migrations:
+```bash
+pnpm prisma generate
+pnpm prisma migrate dev
+```
+
+3. Seed the database with initial data:
+```bash
+prisma db seed
+```
+
+4. Start the development server:
+```bash
+pnpm dev
+```
+
+The application will be available at [http://localhost:3000](http://localhost:3000).
+
 ## Getting Started
 
 First, run the development server:
