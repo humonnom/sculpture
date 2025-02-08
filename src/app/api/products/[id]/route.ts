@@ -1,16 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "~/lib/prisma";
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
+interface UpdateProductBody {
+  name: string;
+}
 
 // GET /api/products/[id] - 특정 제품 조회
 export async function GET(
-  request: NextRequest,
-  { params }: Props
+  _request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
     const product = await prisma.products.findUnique({
@@ -36,10 +35,10 @@ export async function GET(
 // PUT /api/products/[id] - 제품 수정
 export async function PUT(
   request: NextRequest,
-  { params }: Props
+  { params }: { params: { id: string } }
 ) {
   try {
-    const body = await request.json();
+    const body = await request.json() as UpdateProductBody;
     const product = await prisma.products.update({
       where: { id: parseInt(params.id) },
       data: {
@@ -57,8 +56,8 @@ export async function PUT(
 
 // DELETE /api/products/[id] - 제품 삭제
 export async function DELETE(
-  request: NextRequest,
-  { params }: Props
+  _request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
     await prisma.products.delete({

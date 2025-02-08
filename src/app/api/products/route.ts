@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "~/lib/prisma";
 
+interface CreateProductBody {
+  name: string;
+  height: number;
+  width: number;
+  depth: number;
+  year: number;
+  artist_name: string;
+  material: string;
+}
+
 // GET /api/products - 모든 제품 조회
 export async function GET(request: NextRequest) {
   try {
@@ -17,7 +27,7 @@ export async function GET(request: NextRequest) {
 // POST /api/products - 새 제품 생성
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = await request.json() as CreateProductBody;
     const product = await prisma.products.create({
       data: {
         name: body.name,
