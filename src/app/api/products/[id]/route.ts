@@ -8,11 +8,12 @@ interface UpdateProductBody {
 // GET /api/products/[id] - 특정 제품 조회
 export async function GET(
   _request: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await context.params;
     const product = await prisma.products.findUnique({
-      where: { id: parseInt(context.params.id) },
+      where: { id: parseInt(id) },
     });
 
     if (!product) {
@@ -31,12 +32,13 @@ export async function GET(
 // PUT /api/products/[id] - 제품 수정
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await context.params;
     const body = (await request.json()) as UpdateProductBody;
     const product = await prisma.products.update({
-      where: { id: parseInt(context.params.id) },
+      where: { id: parseInt(id) },
       data: {
         name: body.name,
       },
@@ -53,11 +55,12 @@ export async function PUT(
 // DELETE /api/products/[id] - 제품 삭제
 export async function DELETE(
   _request: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await context.params;
     await prisma.products.delete({
-      where: { id: parseInt(context.params.id) },
+      where: { id: parseInt(id) },
     });
     return new NextResponse(null, { status: 204 });
   } catch (error) {
