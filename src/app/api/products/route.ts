@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import prisma from "~/lib/prisma";
 
 interface CreateProductBody {
@@ -12,14 +12,14 @@ interface CreateProductBody {
 }
 
 // GET /api/products - 모든 제품 조회
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const products = await prisma.products.findMany();
     return NextResponse.json(products);
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch products" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 // POST /api/products - 새 제품 생성
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json() as CreateProductBody;
+    const body = (await request.json()) as CreateProductBody;
     const product = await prisma.products.create({
       data: {
         name: body.name,
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create product" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
