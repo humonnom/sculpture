@@ -79,7 +79,7 @@ model Products {
     height      Float    /// Measurement in millimeters (mm)
     width       Float    /// Measurement in millimeters (mm)
     depth       Float    /// Measurement in millimeters (mm)
-    year        Int
+    year        DateTime    /// Format: YYYY-01-01 (month and day fixed to January 1st)
     artist_name String   @db.VarChar(255)
     material    String   @db.VarChar(255)
     createdAt   DateTime @default(now())
