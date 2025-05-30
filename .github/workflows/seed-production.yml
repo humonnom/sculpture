@@ -1,0 +1,14 @@
+name: Seed Production DB
+on:
+  workflow_dispatch: # 수동 실행
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - run: pnpm install
+      - run: pnpm db:seed:production
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
