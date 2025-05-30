@@ -76,10 +76,10 @@ model VerificationToken {
 model Products {
     id          Int      @id @default(autoincrement())
     name        String   @db.VarChar(255)
-    height      Float    /// Measurement in centimeters (cm)
-    width       Float    /// Measurement in centimeters (cm)
-    depth       Float    /// Measurement in centimeters (cm)
-    year        Int
+    height      Float    /// Measurement in millimeters (mm)
+    width       Float    /// Measurement in millimeters (mm)
+    depth       Float    /// Measurement in millimeters (mm)
+    year        DateTime    /// Format: YYYY-01-01 (month and day fixed to January 1st)
     artist_name String   @db.VarChar(255)
     material    String   @db.VarChar(255)
     createdAt   DateTime @default(now())
